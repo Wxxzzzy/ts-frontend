@@ -25,7 +25,10 @@
     "@clr/ui": "^16.1.0",
     "@ngneat/until-destroy": "^10.0.0",
     "i": "^0.3.7",
+    "moment": "^2.29.4",
     "npm": "^10.2.5",
+    "prettier": "^3.1.1",
+    "prettier-plugin-organize-imports": "^3.2.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

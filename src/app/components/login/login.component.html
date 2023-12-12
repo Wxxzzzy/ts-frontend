@@ -1,0 +1,20 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="form">
+    <section class="title">
+      <h3 class="welcome">Welcome to</h3>
+      TeamSync
+      <h5 class="hint">Use your credentials to sign in</h5>
+    </section>
+    <div class="login-group">
+      <clr-input-container>
+        <label class="clr-sr-only">Username</label>
+        <input type="text" autocomplete="username" name="username" clrInput placeholder="Username" [formControl]="usernameCtrl">
+      </clr-input-container>
+      <clr-password-container>
+        <label class="clr-sr-only">Password</label>
+        <input type="password" autocomplete="current-password" name="password" clrPassword placeholder="Password" [formControl]="passwordCtrl">
+      </clr-password-container>
+      <button class="btn btn-primary" (click)="login()" [disabled]="!this.form.valid">LogIn</button>
+    </div>
+  </form>
+</div>
