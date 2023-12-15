@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AuthService } from '../../services';
 import { Credentials } from '../../shared/models';
@@ -29,6 +30,7 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private router: Router,
   ) {
     this.usernameCtrl = this.fb.control<string>('', [Validators.required]);
     this.passwordCtrl = this.fb.control<string>('', [Validators.required]);
@@ -37,7 +39,7 @@ export class LoginComponent {
       password: this.passwordCtrl,
     });
 
-    this.form.markAsPristine();
+    this.form.markAllAsTouched();
   }
 
   public login() {
@@ -46,5 +48,9 @@ export class LoginComponent {
       password: this.form.controls.password.value,
     };
     this.authService.login(data).pipe(untilDestroyed(this)).subscribe();
+  }
+
+  public switchToSignUp(): void {
+    this.router.navigate(['sign-up']);
   }
 }

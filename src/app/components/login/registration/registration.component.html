@@ -3,7 +3,7 @@
     <section class="title">
       <h3 class="welcome">Welcome to</h3>
       TeamSync
-      <h5 class="hint">Use your credentials to sign in</h5>
+      <h5 class="hint">Fill this form to continue</h5>
     </section>
     <div class="login-group">
       <clr-input-container>
@@ -12,14 +12,20 @@
                name="username" clrInput placeholder="Username"
                [formControl]="usernameCtrl">
       </clr-input-container>
+      <clr-input-container>
+        <label class="clr-sr-only">Email</label>
+        <input type="email" autocomplete="email"
+               name="email" clrInput placeholder="Email"
+               [formControl]="emailCtrl">
+      </clr-input-container>
       <clr-password-container>
         <label class="clr-sr-only">Password</label>
-        <input type="password" autocomplete="current-password"
+        <input type="password" autocomplete="password"
                name="password" clrPassword placeholder="Password"
                [formControl]="passwordCtrl">
       </clr-password-container>
-      <button class="btn btn-primary" (click)="login()" [disabled]="!form.valid">Login</button>
-      <button class="btn btn-primary-outline" (click)="switchToSignUp()">Sign Up</button>
+      <button class="btn btn-primary" (click)="signUp()" [disabled]="!form.valid">SignUp</button>
+      <button class="btn btn-primary-outline" (click)="back()">Back To Login</button>
     </div>
   </form>
 </div>

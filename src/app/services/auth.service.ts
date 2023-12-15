@@ -21,6 +21,10 @@ export class AuthService {
     private router: Router,
   ) {}
 
+  public get isLogged(): boolean {
+    return this.token !== null;
+  }
+
   public get userId(): number {
     return Number(localStorage.getItem('userId')) ?? 0;
   }
