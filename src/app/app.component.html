@@ -1,4 +1,4 @@
-<div cds-theme="dark" class="main-container">
+<div *ngIf="!isAuthPage" cds-theme="dark" class="main-container">
   <div *ngIf="showSideBar" class="content-container">
     <clr-vertical-nav [clrVerticalNavCollapsible]="true" class="nav-trigger--bottom">
       <a clrVerticalNavLink routerLink="/main-page/teams" routerLinkActive="active">
@@ -19,4 +19,8 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+</div>
+
+<div *ngIf="isAuthPage" cds-theme="dark">
+  <router-outlet></router-outlet>
 </div>

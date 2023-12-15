@@ -22,11 +22,11 @@ export class AppComponent implements OnInit {
     ClarityIcons.addIcons();
   }
 
+  public get isAuthPage() {
+    return this.router.url === '/' || this.router.url === '/sign-up';
+  }
+
   public get showSideBar() {
-    return (
-      this.authService.isLogged &&
-      this.router.url !== '/' &&
-      this.router.url !== '/sign-up'
-    );
+    return !this.isAuthPage && this.authService.isLogged;
   }
 }
