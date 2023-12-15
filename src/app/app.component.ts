@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { bellIcon, ClarityIcons, plusIcon, usersIcon } from '@cds/core/icon';
 import { AuthService } from './services';
 
 @Component({
@@ -8,19 +7,13 @@ import { AuthService } from './services';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'team-sync';
 
   constructor(
     private authService: AuthService,
     private router: Router,
-  ) {
-    ClarityIcons.addIcons(usersIcon, plusIcon, bellIcon);
-  }
-
-  ngOnInit() {
-    ClarityIcons.addIcons();
-  }
+  ) {}
 
   public get showSideBar() {
     return (
