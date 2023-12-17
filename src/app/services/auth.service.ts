@@ -7,7 +7,8 @@ import {
   Credentials,
   RegistrationCredentials,
   UserAccessData,
-} from '../shared/models';
+} from '../shared';
+import { RequestNotificationService } from './request-notification.service';
 
 //TODO: Do something with hardcoded value names
 @Injectable({
@@ -16,9 +17,12 @@ import {
 export class AuthService {
   private readonly _baseUrl = `${envDev.baseUrl}/Authentication`;
 
+  //TODO: observable userData (get rid of getters)
+
   constructor(
     private http: HttpClient,
     private router: Router,
+    private notify: RequestNotificationService,
   ) {}
 
   public get isLogged(): boolean {
@@ -37,8 +41,9 @@ export class AuthService {
     return Number(localStorage.getItem('user_role_id')) ?? 0;
   }
 
-  public get token(): string | null {
-    return localStorage.getItem('token');
+  public get token(): string {
+    const token = localStorage.getItem('token');
+    return token ?? 'no token';
   }
 
   public login(loginData: Credentials): Observable<UserAccessData> {
@@ -47,7 +52,8 @@ export class AuthService {
       .pipe(
         tap((v) => {
           this.setValuesToLocalStorage(v);
-          this.router.navigate(['main-page']);
+          this.router.navigate(['user-page']);
+          this.notify.success('You logged in');
         }),
       );
   }
@@ -58,7 +64,8 @@ export class AuthService {
     return this.http.post(`${this._baseUrl}/logout`, this.token).pipe(
       tap(() => {
         localStorage.clear();
-        this.router.navigate(['']);
+        this.router.navigate(['/']);
+        this.notify.success('You logged out');
       }),
     );
   }
@@ -71,7 +78,7 @@ export class AuthService {
       .pipe(
         tap((v) => {
           this.setValuesToLocalStorage(v);
-          this.router.navigate(['/main-page']);
+          this.router.navigate(['/user-page']);
         }),
       );
   }

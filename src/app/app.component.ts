@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { bellIcon, ClarityIcons, plusIcon, usersIcon } from '@cds/core/icon';
+import { first } from 'rxjs';
 import { AuthService } from './services';
 
 @Component({
@@ -8,7 +9,7 @@ import { AuthService } from './services';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'team-sync';
 
   constructor(
@@ -18,8 +19,8 @@ export class AppComponent implements OnInit {
     ClarityIcons.addIcons(usersIcon, plusIcon, bellIcon);
   }
 
-  ngOnInit() {
-    ClarityIcons.addIcons();
+  public logout() {
+    this.authService.logout().pipe(first()).subscribe();
   }
 
   public get isAuthPage() {

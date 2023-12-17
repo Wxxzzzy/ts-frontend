@@ -1,19 +1,19 @@
 <div *ngIf="!isAuthPage" cds-theme="dark" class="main-container">
   <div *ngIf="showSideBar" class="content-container">
     <clr-vertical-nav [clrVerticalNavCollapsible]="true" class="nav-trigger--bottom">
-      <a clrVerticalNavLink routerLink="/main-page/teams" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/user-page/my-teams" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="users"></cds-icon>
         My Teams
       </a>
-      <a clrVerticalNavLink routerLink="/main-page/create-team" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/user-page/create-team" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="plus"></cds-icon>
         Create Team
       </a>
-      <a clrVerticalNavLink routerLink="/main-page/notifications" routerLinkActive="active">
+      <a clrVerticalNavLink routerLink="/user-page/notifications" routerLinkActive="active">
         <cds-icon clrVerticalNavIcon shape="bell" badge="info"></cds-icon>
         Notifications
       </a>
-      <button class="btn btn-danger">Logout</button>
+      <button class="btn btn-danger" (click)="logout()">Logout</button>
     </clr-vertical-nav>
     <div class="content-area">
       <router-outlet></router-outlet>
