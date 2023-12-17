@@ -1,1 +1,15 @@
-<p>create-team works!</p>
+<clr-modal [(clrModalOpen)]="showDialog" [clrModalSize]="'lg'">
+  <h3 class="modal-title">Let's create new team</h3>
+  <div class="modal-body max-height">
+    <clr-input-container>
+      <label class="clr-sr-only">Team Name</label>
+      <input type="text" autocomplete="teamName"
+             name="teamName" clrInput placeholder="TeamName"
+             [formControl]="teamNameCtrl" >
+    </clr-input-container>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" (click)="close()">Close</button>
+    <button class="btn btn-primary" (click)="createTeam()">Create</button>
+  </div>
+</clr-modal>

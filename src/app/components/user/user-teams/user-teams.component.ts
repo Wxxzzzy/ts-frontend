@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { TeamService } from '../../../services/team.service';
 import { TeamOverview } from '../../../shared';
 
@@ -8,14 +8,13 @@ import { TeamOverview } from '../../../shared';
 @Component({
   selector: 'app-user-teams',
   templateUrl: './user-teams.component.html',
-  styleUrls: ['./user-teams.component.css'],
+  styleUrls: ['./user-teams.component.scss'],
 })
 export class UserTeamsComponent implements OnInit {
-  public myTeams$ = new Subject<TeamOverview[]>();
+  public myTeams$ = new BehaviorSubject<TeamOverview[]>([]);
 
   constructor(private teamService: TeamService) {}
 
-  //TODO: interceptor for tokens
   ngOnInit() {
     this.setupItemsLoading$();
   }
@@ -26,6 +25,17 @@ export class UserTeamsComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((x) => {
         this.myTeams$.next(x);
+      });
+  }
+
+  public openTeam(id: number) {}
+
+  public deleteTeam(id: number) {
+    this.teamService
+      .deleteTeam(id)
+      .pipe(untilDestroyed(this))
+      .subscribe(() => {
+        this.setupItemsLoading$();
       });
   }
 }

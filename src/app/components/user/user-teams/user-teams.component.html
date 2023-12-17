@@ -1,1 +1,22 @@
-<p>user-teams works!</p>
+<div class="table max-width">
+  <thead>
+    <tr>
+      <th>Team Name</th>
+      <th>Owner</th>
+      <th>Open</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let team of myTeams$ | async">
+      <td class="column-width">{{ team.teamName }}</td>
+      <td class="column-width">{{ team.ownerName }}</td>
+      <td class="column-width">
+        <button class="btn btn-primary" (click)="openTeam(team.id)">Open</button>
+      </td>
+      <td class="column-width">
+        <button class="btn btn-danger" (click)="deleteTeam(team.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</div>

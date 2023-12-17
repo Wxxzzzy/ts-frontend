@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   ClrInputModule,
+  ClrModalModule,
   ClrPasswordModule,
   ClrVerticalNavModule,
 } from '@clr/angular';
@@ -50,6 +51,7 @@ import { APP_INTERCEPTORS } from './interceptors';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    ClrModalModule,
   ],
   exports: [RouterModule],
   providers: [...APP_INTERCEPTORS],
