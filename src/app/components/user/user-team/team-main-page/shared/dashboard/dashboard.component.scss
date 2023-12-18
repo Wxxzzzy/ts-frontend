@@ -1,0 +1,17 @@
+.dashboard-cl {
+  color: var(--cds-global-color-black);
+  background-color: var(--cds-alias-object-interaction-color);
+  border-radius: 5px;
+  min-height: 500px;
+  max-width: 210px;
+
+  .dashboard-header {
+    h3 {
+      color: var(--cds-global-color-black) !important;
+    }
+    border-radius: 5px;
+    border-color: var(--cds-global-color-black);
+    border-width: 5px;
+    background-color: var(--cds-alias-object-interaction-color);
+  }
+}

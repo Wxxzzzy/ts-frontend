@@ -1,0 +1,61 @@
+<div cdkDropListGroup class="clr-row" fxLayoutGap="10px">
+
+  <div class="clr-col-4 dashboard-cl">
+    <div class="dashboard-header">
+      <h3>Open</h3>
+    </div>
+    <div cdkDropList [cdkDropListData]="openTasks$"
+         [id]="'Open'"
+         (cdkDropListDropped)="drop($event)">
+      <app-task *ngFor="let task of openTasks$ | async"
+                class="board-dnd-list"
+                [taskData]="task"
+                cdkDrag [cdkDragData]="task"></app-task>
+    </div>
+  </div>
+
+  <div class="clr-col-4 dashboard-cl">
+    <div class="dashboard-header">
+      <h3>In Progress</h3>
+    </div>
+    <div cdkDropList [cdkDropListData]="inProgressTasks$"
+         [id]="'In Progress'"
+         (cdkDropListDropped)="drop($event)">
+      <app-task *ngFor="let task of inProgressTasks$ | async"
+                class="board-dnd-list"
+                [taskData]="task"
+                cdkDrag [cdkDragData]="task"></app-task>
+    </div>
+  </div>
+
+  <div class="clr-col-4 dashboard-cl">
+    <div class="dashboard-header">
+      <h3>Resolved</h3>
+    </div>
+    <div cdkDropList [cdkDropListData]="resolvedTasks$"
+         [id]="'Resolved'"
+         (cdkDropListDropped)="drop($event)">
+      <app-task *ngFor="let task of resolvedTasks$ | async"
+                class="board-dnd-list"
+                [taskData]="task"
+                cdkDrag [cdkDragData]="task"></app-task>
+    </div>
+  </div>
+
+<!--    <app-dnd-list [title]="'Open'"-->
+<!--                  [teamId]="teamId"-->
+<!--                  [tasks$]="openTasks$"-->
+<!--                  [status]="ETicketStatus.Open">-->
+<!--    </app-dnd-list>-->
+<!--    <app-dnd-list [title]="'In Progress'"-->
+<!--                  [teamId]="teamId"-->
+<!--                  [tasks$]="inProgressTasks$"-->
+<!--                  [status]="ETicketStatus.InProgress">-->
+<!--    </app-dnd-list>-->
+<!--    <app-dnd-list [title]="'Resolved'"-->
+<!--                  [teamId]="teamId"-->
+<!--                  [tasks$]="resolvedTasks$"-->
+<!--                  [status]="ETicketStatus.Resolved">-->
+<!--    </app-dnd-list>-->
+</div>
+

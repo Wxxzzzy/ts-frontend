@@ -4,13 +4,6 @@ export enum ENotificationType {
   Error = 3,
 }
 
-// export const NotificationTypeDictionary:
-//   [ENotificationType]: 'success' | 'info' | 'error' = {
-//   [ENotificationType.Success]: 'success',
-//   [ENotificationType.Info]: 'info',
-//   [ENotificationType.Success]: 'error',
-// };
-
 export const NotificationTypeDictionary: {
   [key in ENotificationType]: 'success' | 'info' | 'error';
 } = {

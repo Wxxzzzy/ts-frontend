@@ -1,3 +1,4 @@
+import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexModule } from '@angular/flex-layout';
@@ -19,6 +20,11 @@ import { RegistrationComponent } from './components/login/registration/registrat
 import { CreateTeamComponent } from './components/user/create-team/create-team.component';
 import { EmptyPageComponent } from './components/user/empty-page/empty-page.component';
 import { NotificationsComponent } from './components/user/notifications/notifications.component';
+import { DashboardComponent } from './components/user/user-team/team-main-page/shared/dashboard/dashboard.component';
+import { RightSideMenuComponent } from './components/user/user-team/team-main-page/shared/right-side-menu/right-side-menu.component';
+import { TaskOverviewComponent } from './components/user/user-team/team-main-page/shared/task-overview/task-overview.component';
+import { TaskComponent } from './components/user/user-team/team-main-page/shared/task/task.component';
+import { TeamMainPageComponent } from './components/user/user-team/team-main-page/team-main-page.component';
 import { UserTeamsComponent } from './components/user/user-teams/user-teams.component';
 import { APP_INTERCEPTORS } from './interceptors';
 
@@ -31,6 +37,11 @@ import { APP_INTERCEPTORS } from './interceptors';
     UserTeamsComponent,
     CreateTeamComponent,
     EmptyPageComponent,
+    TeamMainPageComponent,
+    RightSideMenuComponent,
+    DashboardComponent,
+    TaskComponent,
+    TaskOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +63,9 @@ import { APP_INTERCEPTORS } from './interceptors';
       preventDuplicates: true,
     }),
     ClrModalModule,
+    CdkDropListGroup,
+    CdkDropList,
+    CdkDrag,
   ],
   exports: [RouterModule],
   providers: [...APP_INTERCEPTORS],

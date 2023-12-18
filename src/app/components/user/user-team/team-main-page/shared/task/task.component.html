@@ -1,0 +1,18 @@
+<div *ngIf="taskData !== null" class="clr-row">
+  <div class="">
+    <div class="card">
+      <h3 class="card-header">{{ taskData.ticketTitle }}</h3>
+      <div class="card-block">
+        <h4 class="card-title">About: {{ taskData.shortDescription }}</h4>
+        <div class="card-text">
+          Assigned To: {{taskData.assignedToName}}
+        </div>
+      </div>
+      <div class="card-footer">
+        <cds-icon *ngIf="taskStatusIcon=== 'bug'" shape="bug" badge="info"></cds-icon>
+        <cds-icon *ngIf="taskStatusIcon=== 'file-group'" shape="file-group" badge="info"></cds-icon>
+        <cds-icon *ngIf="taskStatusIcon=== 'success-standard'" shape="success-standard" badge="info"></cds-icon>
+      </div>
+    </div>
+  </div>
+</div>

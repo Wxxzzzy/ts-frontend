@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { bellIcon, ClarityIcons, plusIcon, usersIcon } from '@cds/core/icon';
+import {
+  bellIcon,
+  bugIcon,
+  ClarityIcons,
+  fileGroupIcon,
+  plusIcon,
+  successStandardIcon,
+  usersIcon,
+} from '@cds/core/icon';
 import { first } from 'rxjs';
 import { AuthService } from './services';
 
@@ -16,7 +24,14 @@ export class AppComponent {
     private authService: AuthService,
     private router: Router,
   ) {
-    ClarityIcons.addIcons(usersIcon, plusIcon, bellIcon);
+    ClarityIcons.addIcons(
+      usersIcon,
+      plusIcon,
+      bellIcon,
+      bugIcon,
+      fileGroupIcon,
+      successStandardIcon,
+    );
   }
 
   public logout() {

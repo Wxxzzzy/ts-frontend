@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';
 import { TeamService } from '../../../services/team.service';
@@ -13,7 +14,10 @@ import { TeamOverview } from '../../../shared';
 export class UserTeamsComponent implements OnInit {
   public myTeams$ = new BehaviorSubject<TeamOverview[]>([]);
 
-  constructor(private teamService: TeamService) {}
+  constructor(
+    private teamService: TeamService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.setupItemsLoading$();
@@ -28,7 +32,9 @@ export class UserTeamsComponent implements OnInit {
       });
   }
 
-  public openTeam(id: number) {}
+  public openTeam(id: number) {
+    this.router.navigate([`/user-page/team/${id}`]);
+  }
 
   public deleteTeam(id: number) {
     this.teamService

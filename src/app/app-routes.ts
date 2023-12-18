@@ -4,6 +4,7 @@ import { RegistrationComponent } from './components/login/registration/registrat
 import { CreateTeamComponent } from './components/user/create-team/create-team.component';
 import { EmptyPageComponent } from './components/user/empty-page/empty-page.component';
 import { NotificationsComponent } from './components/user/notifications/notifications.component';
+import { TeamMainPageComponent } from './components/user/user-team/team-main-page/team-main-page.component';
 import { UserTeamsComponent } from './components/user/user-teams/user-teams.component';
 
 //TODO: nodes tree
@@ -32,5 +33,9 @@ export const routes: Routes = [
   {
     path: 'user-page/notifications',
     component: NotificationsComponent,
+  },
+  {
+    path: 'user-page/team/:teamId',
+    component: TeamMainPageComponent,
   },
 ];
