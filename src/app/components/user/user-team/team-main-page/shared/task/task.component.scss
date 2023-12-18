@@ -1,3 +1,17 @@
 .task-width {
   max-width: 150px;
 }
+
+.hide-scroll {
+  max-height: 800px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.light-bg {
+  background-color: hsl(198, 0%, 91%);
+}
+
+.light-bg-card {
+  background-color: hsl(208, 14%, 39%);
+}

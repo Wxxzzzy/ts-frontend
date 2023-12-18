@@ -7,6 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
+  ClrDatalistModule,
+  ClrDropdownModule,
   ClrInputModule,
   ClrModalModule,
   ClrPasswordModule,
@@ -22,7 +24,6 @@ import { EmptyPageComponent } from './components/user/empty-page/empty-page.comp
 import { NotificationsComponent } from './components/user/notifications/notifications.component';
 import { DashboardComponent } from './components/user/user-team/team-main-page/shared/dashboard/dashboard.component';
 import { RightSideMenuComponent } from './components/user/user-team/team-main-page/shared/right-side-menu/right-side-menu.component';
-import { TaskOverviewComponent } from './components/user/user-team/team-main-page/shared/task-overview/task-overview.component';
 import { TaskComponent } from './components/user/user-team/team-main-page/shared/task/task.component';
 import { TeamMainPageComponent } from './components/user/user-team/team-main-page/team-main-page.component';
 import { UserTeamsComponent } from './components/user/user-teams/user-teams.component';
@@ -41,7 +42,6 @@ import { APP_INTERCEPTORS } from './interceptors';
     RightSideMenuComponent,
     DashboardComponent,
     TaskComponent,
-    TaskOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +66,8 @@ import { APP_INTERCEPTORS } from './interceptors';
     CdkDropListGroup,
     CdkDropList,
     CdkDrag,
+    ClrDropdownModule,
+    ClrDatalistModule,
   ],
   exports: [RouterModule],
   providers: [...APP_INTERCEPTORS],

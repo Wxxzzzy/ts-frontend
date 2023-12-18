@@ -39,7 +39,6 @@ export class TaskService {
   public update(formData: UpdateTicketCommand): Observable<void> {
     const id = formData.id;
     const ticketStatus = formData.ticketStatus;
-    const ticketCreatorId = formData.ticketCreatorId;
     const teamId = formData.teamId;
     const assignedToId = formData.assignedToId;
     const ShortDescription = formData.shortDescription;
@@ -48,7 +47,6 @@ export class TaskService {
     const body = {
       id,
       ticketStatus,
-      ticketCreatorId,
       teamId,
       assignedToId,
       ShortDescription,

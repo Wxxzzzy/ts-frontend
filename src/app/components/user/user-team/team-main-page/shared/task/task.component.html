@@ -1,6 +1,6 @@
-<div *ngIf="taskData !== null" class="clr-row">
+<div *ngIf="taskData !== null" class="clr-row light-bg">
   <div class="">
-    <div class="card">
+    <div class="card clickable light-bg-card" (click)="openDetails()">
       <h3 class="card-header">{{ taskData.ticketTitle }}</h3>
       <div class="card-block">
         <h4 class="card-title">About: {{ taskData.shortDescription }}</h4>
@@ -9,10 +9,45 @@
         </div>
       </div>
       <div class="card-footer">
-        <cds-icon *ngIf="taskStatusIcon=== 'bug'" shape="bug" badge="info"></cds-icon>
+        <cds-icon *ngIf="taskStatusIcon=== 'bug'" shape="bug" badge="info"  ></cds-icon>
         <cds-icon *ngIf="taskStatusIcon=== 'file-group'" shape="file-group" badge="info"></cds-icon>
         <cds-icon *ngIf="taskStatusIcon=== 'success-standard'" shape="success-standard" badge="info"></cds-icon>
       </div>
     </div>
   </div>
 </div>
+
+<clr-modal *ngIf="taskData !== null" [(clrModalOpen)]="modalOpen">
+  <h3 class="modal-title">{{taskData.ticketTitle}}</h3>
+  <div class="modal-body hide-scroll">
+    <form clrForm>
+      <clr-input-container>
+        <label>Description:</label>
+        <input type="text" clrInput [formControl]="updateForm.controls.shortDescription">
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Status:</label>
+        <input type="text" clrInput [formControl]="updateForm.controls.ticketStatus">
+      </clr-input-container>
+
+        <clr-datalist-container>
+          <label>Assigned To:</label>
+          <input type="text" clrDatalistInput [formControl]="updateForm.controls.assignedToId" placeholder="Assigned To" name="Option">
+          <datalist>
+            <option *ngFor="let item of users$ | async"
+                    [value]="item.value"></option>
+          </datalist>
+        </clr-datalist-container>
+
+      <clr-input-container>
+        <label>Created By:</label>
+        <input type="text" clrInput [formControl]="updateForm.controls.creatorName">
+      </clr-input-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info-outline" (click)="closeDetails()">Close</button>
+    <button class="btn btn-info" (click)="save()" [disabled]="!updateForm.valid">Save changes</button>
+  </div>
+</clr-modal>

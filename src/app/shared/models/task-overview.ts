@@ -6,6 +6,6 @@ export interface TaskOverview {
   teamId: number;
 
   assignedToId?: number;
-  assignedToName: string;
+  assignedToName?: string;
   creatorName: string;
 }
