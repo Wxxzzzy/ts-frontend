@@ -1,1 +1,8 @@
-<p>right-side-menu works!</p>
+<clr-vertical-nav class="full-height">
+  <div class="full-height">
+    <h4>Team members:</h4>
+    <div>
+      <p *ngFor="let member of teamMembers$ | async">{{member}}</p>
+    </div>
+  </div>
+</clr-vertical-nav>

@@ -3,3 +3,14 @@
 @import '@cds/core/global.min.css';
 @import '@cds/city/css/bundles/default.min.css';
 @import 'ngx-toastr/toastr';
+
+.full-height {
+  max-height: 100%;
+  min-height: 100%;
+}
+
+.hide-scroll {
+  max-height: 800px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}

@@ -1,13 +1,28 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, Input, OnInit } from '@angular/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BehaviorSubject, tap } from 'rxjs';
-import { TaskService } from '../../../../../../services';
 import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BehaviorSubject, first, tap } from 'rxjs';
+import { TaskService, TeamService } from '../../../../../../services';
+import {
+  CreateTicketCommand,
   ETicketStatus,
+  KeyValues,
   TaskOverview,
   UpdateTicketCommand,
 } from '../../../../../../shared';
+
+interface CreateTaskFg {
+  ticketTitle: FormControl<string>;
+  shortDescription?: FormControl<string>;
+  ticketStatus?: FormControl<string>;
+  assignedTo?: FormControl<string>;
+}
 
 @UntilDestroy()
 @Component({
@@ -23,11 +38,41 @@ export class DashboardComponent implements OnInit {
   public inProgressTasks$ = new BehaviorSubject<TaskOverview[]>([]);
   public openTasks$ = new BehaviorSubject<TaskOverview[]>([]);
   public resolvedTasks$ = new BehaviorSubject<TaskOverview[]>([]);
+  public users$ = new BehaviorSubject<string[]>([]);
+  public usersKeyValues$ = new BehaviorSubject<KeyValues[]>([]);
 
-  constructor(private taskService: TaskService) {}
+  public creationWindow = false;
+
+  public taskCreationForm: FormGroup<CreateTaskFg>;
+
+  constructor(
+    private taskService: TaskService,
+    private teamService: TeamService,
+    private fb: FormBuilder,
+  ) {
+    this.taskCreationForm = this.fb.group<CreateTaskFg>(<CreateTaskFg>{
+      ticketTitle: this.fb.control('', [Validators.required]),
+      shortDescription: this.fb.control('', [
+        Validators.required,
+        Validators.maxLength(1024),
+      ]),
+      ticketStatus: this.fb.control(''),
+      assignedTo: this.fb.control(''),
+    });
+  }
 
   ngOnInit() {
     this.setupItemsLoading$();
+    this.getUsers();
+  }
+
+  public getUsers() {
+    this.teamService
+      .getTeamInfo(this.teamId)
+      .pipe(untilDestroyed(this))
+      .subscribe((x) => {
+        this.users$.next(x.teamMembers);
+      });
   }
 
   public drop(event: CdkDragDrop<TaskOverview[]>) {
@@ -91,5 +136,49 @@ export class DashboardComponent implements OnInit {
     return result;
   }
 
-  protected readonly ETicketStatus = ETicketStatus;
+  private getTeamMembers() {
+    this.teamService
+      .getTeamMembers(this.teamId)
+      .pipe(first())
+      .subscribe((x) => {
+        this.usersKeyValues$.next(x);
+      });
+  }
+
+  public openCreationWindow() {
+    this.getTeamMembers();
+    this.creationWindow = true;
+  }
+
+  public closeCreationWindow() {
+    this.creationWindow = false;
+  }
+
+  public createTask() {
+    const assignedTo = this.taskCreationForm.controls.assignedTo?.value;
+    const assignedToId = this.usersKeyValues$.value.filter(
+      (x) => x.value === assignedTo,
+    )[0].id;
+
+    const status = this.getStatus(
+      this.taskCreationForm.controls.ticketStatus?.value ?? 'Open',
+    );
+
+    const data: CreateTicketCommand = {
+      ticketTitle: this.taskCreationForm.controls.ticketTitle.value,
+      assignedTo: assignedToId,
+      ticketStatus: status,
+      shortDescription:
+        this.taskCreationForm.controls.shortDescription?.value ??
+        'no description',
+      teamId: this.teamId,
+    };
+    this.taskService
+      .create(data)
+      .pipe(untilDestroyed(this))
+      .subscribe(() => {
+        this.closeCreationWindow();
+      });
+    this.setupItemsLoading$();
+  }
 }

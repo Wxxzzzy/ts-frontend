@@ -3,5 +3,5 @@ export interface CreateTicketCommand {
   shortDescription?: string;
   ticketStatus?: number;
   teamId: number;
-  assignedTo?: number;
+  assignedTo: number;
 }

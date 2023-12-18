@@ -48,6 +48,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-info-outline" (click)="closeDetails()">Close</button>
+    <button class="btn btn-danger btn-spacing" (click)="delete()">Delete</button>
     <button class="btn btn-info" (click)="save()" [disabled]="!updateForm.valid">Save changes</button>
   </div>
 </clr-modal>

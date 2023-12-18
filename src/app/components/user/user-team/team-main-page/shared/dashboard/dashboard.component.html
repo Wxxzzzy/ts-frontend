@@ -42,20 +42,53 @@
     </div>
   </div>
 
-<!--    <app-dnd-list [title]="'Open'"-->
-<!--                  [teamId]="teamId"-->
-<!--                  [tasks$]="openTasks$"-->
-<!--                  [status]="ETicketStatus.Open">-->
-<!--    </app-dnd-list>-->
-<!--    <app-dnd-list [title]="'In Progress'"-->
-<!--                  [teamId]="teamId"-->
-<!--                  [tasks$]="inProgressTasks$"-->
-<!--                  [status]="ETicketStatus.InProgress">-->
-<!--    </app-dnd-list>-->
-<!--    <app-dnd-list [title]="'Resolved'"-->
-<!--                  [teamId]="teamId"-->
-<!--                  [tasks$]="resolvedTasks$"-->
-<!--                  [status]="ETicketStatus.Resolved">-->
-<!--    </app-dnd-list>-->
+  <div class="clr-col-4">
+   <button class="btn btn-success" (click)="openCreationWindow()">Create New Task</button>
+    <div>
+      <h5>Team Members</h5>
+      <ul>
+        <li *ngFor="let user of users$ | async">{{user}}</li>
+      </ul>
+    </div>
+  </div>
 </div>
+
+<clr-modal [(clrModalOpen)]="creationWindow">
+  <h3 class="modal-title">Create Task</h3>
+  <div class="modal-body hide-scroll">
+    <form clrForm>
+      <clr-input-container>
+        <label>Title</label>
+        <input type="text" clrInput [formControl]="this.taskCreationForm.controls.ticketTitle">
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Description</label>
+        <input type="text" clrInput [formControl]="taskCreationForm.controls.shortDescription">
+      </clr-input-container>
+
+      <clr-datalist-container>
+        <label>Status:</label>
+        <input type="text" clrDatalistInput [formControl]="taskCreationForm.controls.ticketStatus">
+        <datalist>
+          <option [value]="'Open'"></option>
+          <option [value]="'In Progress'"></option>
+          <option [value]="'Resolved'"></option>
+        </datalist>
+      </clr-datalist-container>
+
+      <clr-datalist-container>
+        <label>Assigned To:</label>
+        <input type="text" clrDatalistInput [formControl]="taskCreationForm.controls.assignedTo">
+        <datalist>
+          <option *ngFor="let user of users$ | async" [value]="user"></option>
+        </datalist>
+      </clr-datalist-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info-outline" (click)="closeCreationWindow()">Cancel</button>
+    <button class="btn btn-info" (click)="createTask()">Create</button>
+  </div>
+</clr-modal>
 

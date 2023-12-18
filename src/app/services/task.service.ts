@@ -33,7 +33,21 @@ export class TaskService {
   }
 
   public create(formData: CreateTicketCommand): Observable<void> {
-    return this.http.post<void>(`${this._baseUrl}`, { formData });
+    const TicketTitle = formData.ticketTitle;
+    const ShortDescription = formData.shortDescription ?? 'no description';
+    const ticketStatus = formData.ticketStatus ?? 1;
+    const teamId = formData.teamId;
+    const assignedToId = formData.assignedTo;
+
+    const body = {
+      TicketTitle,
+      ShortDescription,
+      ticketStatus,
+      teamId,
+      assignedToId,
+    };
+
+    return this.http.post<void>(`${this._baseUrl}`, body);
   }
 
   public update(formData: UpdateTicketCommand): Observable<void> {

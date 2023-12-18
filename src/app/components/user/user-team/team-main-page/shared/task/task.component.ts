@@ -1,4 +1,3 @@
-import { KeyValue } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -6,11 +5,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';
 import { TaskService, TeamService } from '../../../../../../services';
 import {
   ETicketStatus,
+  KeyValues,
   TaskOverview,
   TicketStatusDictionary,
   TicketStatusIconsDict,
@@ -40,12 +41,13 @@ export class TaskComponent implements OnInit {
 
   public updateForm: FormGroup<TaskDetailsFg>;
 
-  public users$ = new BehaviorSubject<KeyValue<number, string>[]>([]);
+  public users$ = new BehaviorSubject<KeyValues[]>([]);
 
   constructor(
     private fb: FormBuilder,
     private taskService: TaskService,
     private teamService: TeamService,
+    private router: Router,
   ) {
     this.updateForm = this.fb.group<TaskDetailsFg>(<TaskDetailsFg>{
       creatorName: this.fb.control('', [Validators.required]),
@@ -73,7 +75,6 @@ export class TaskComponent implements OnInit {
       const statusId = this.taskData.ticketStatus as ETicketStatus;
       this.taskStatusIcon = TicketStatusIconsDict[statusId];
       this.taskStatusString = TicketStatusDictionary[statusId];
-      this.getTeamUsers();
       this.patchControls();
     }
   }
@@ -97,6 +98,7 @@ export class TaskComponent implements OnInit {
   }
 
   public openDetails() {
+    this.getTeamUsers();
     this.modalOpen = true;
   }
 
@@ -108,7 +110,7 @@ export class TaskComponent implements OnInit {
     if (this.taskData !== null) {
       const id = this.users$.value.filter(
         (x) => x.value === this.updateForm.controls.assignedToId.value,
-      )[0].key;
+      )[0].id;
 
       const data: UpdateTicketCommand = {
         id: this.taskData.id,
@@ -135,6 +137,17 @@ export class TaskComponent implements OnInit {
         .pipe(untilDestroyed(this))
         .subscribe((x) => {
           this.users$.next(x);
+        });
+    }
+  }
+
+  public delete() {
+    if (this.taskData !== null) {
+      this.taskService
+        .delete(this.taskData.id)
+        .pipe(untilDestroyed(this))
+        .subscribe(() => {
+          this.closeDetails();
         });
     }
   }

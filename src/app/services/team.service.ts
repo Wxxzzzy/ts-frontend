@@ -1,9 +1,8 @@
-import { KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { envDev } from '../../environments';
-import { TeamOverview } from '../shared';
+import { KeyValues, TeamOverview } from '../shared';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +20,8 @@ export class TeamService {
     return this.http.get<TeamOverview>(`${this._baseUrl}/${teamId}`);
   }
 
-  public getTeamMembers(
-    teamId: number,
-  ): Observable<KeyValue<number, string>[]> {
-    return this.http.get<KeyValue<number, string>[]>(
-      `${this._baseUrl}/${teamId}/members`,
-    );
+  public getTeamMembers(teamId: number): Observable<KeyValues[]> {
+    return this.http.get<KeyValues[]>(`${this._baseUrl}/${teamId}/members`);
   }
 
   public createTeam(teamName: string): Observable<void> {

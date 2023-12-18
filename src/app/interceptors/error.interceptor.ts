@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { RequestNotificationService } from '../services';
 
 @Injectable()
@@ -18,9 +18,11 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      // tap(() => {
-      //   this.notifyService.success('Success');
-      // }),
+      tap((x) => {
+        if (request.method === 'DELETE') {
+          this.notifyService.success('OK: Deleted');
+        }
+      }),
       catchError((x: HttpErrorResponse) => {
         return this.handleError(x);
       }),
