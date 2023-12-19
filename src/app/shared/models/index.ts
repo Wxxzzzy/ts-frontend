@@ -1,3 +1,4 @@
+export * from './admin-control-user';
 export * from './comment-overview';
 export * from './create-comment-command';
 export * from './create-ticket-command';

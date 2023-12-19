@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { envDev } from '../../environments';
 import {
+  AdminControlUser,
   Credentials,
   Notification,
   RegistrationCredentials,
@@ -17,6 +18,7 @@ import { RequestNotificationService } from './request-notification.service';
 })
 export class AuthService {
   private readonly _baseUrl = `${envDev.baseUrl}/Authentication`;
+  private readonly adminEndpoint = `${envDev.baseUrl}/Admin`;
 
   //TODO: observable userData (get rid of getters)
 
@@ -31,7 +33,7 @@ export class AuthService {
   }
 
   public get userId(): number {
-    return Number(localStorage.getItem('userId')) ?? 0;
+    return Number(localStorage.getItem('user_id')) ?? 0;
   }
 
   public get username(): string | null {
@@ -53,7 +55,9 @@ export class AuthService {
       .pipe(
         tap((v) => {
           this.setValuesToLocalStorage(v);
-          this.router.navigate(['user-page']);
+          v.userRoleId === 1
+            ? this.router.navigate(['admin-page'])
+            : this.router.navigate(['user-page']);
           this.notify.success('You logged in');
         }),
       );
@@ -103,6 +107,17 @@ export class AuthService {
   public getUncheckedInvitations(userId: number): Observable<Notification[]> {
     return this.http.get<Notification[]>(
       `${this._baseUrl}/${userId}/userNotifications`,
+    );
+  }
+
+  public getAllUsers() {
+    return this.http.get<AdminControlUser[]>(`${this.adminEndpoint}`);
+  }
+
+  public blockOrUnblockUser(username: string, block: boolean) {
+    return this.http.put<void>(
+      `${this.adminEndpoint}/${username}/${block}/block-or-unblock`,
+      {},
     );
   }
 }

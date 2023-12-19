@@ -21,7 +21,7 @@ export class AppComponent {
   title = 'team-sync';
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
     private notificationsService: ClientNotificationService,
   ) {
@@ -44,6 +44,10 @@ export class AppComponent {
 
   public get isAuthPage() {
     return this.router.url === '/' || this.router.url === '/sign-up';
+  }
+
+  public get isAdmin() {
+    return this.authService.userRoleId === 1;
   }
 
   public get showSideBar() {

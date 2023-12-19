@@ -1,0 +1,7 @@
+<div *ngFor="let user of users$ | async" class="light-bg-card">
+  <p>{{user.username}}</p>
+  <p>{{user.isBlocked ? 'Blocked' : 'Not Blocked'}}</p>
+  <button class="btn btn-danger" (click)="blockOrUnblockUser(user.username, !user.isBlocked)">
+    {{user.isBlocked ? 'Block' : 'Unblock'}}
+  </button>
+</div>

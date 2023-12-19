@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/login/registration/registration.component';
 import { CreateTeamComponent } from './components/user/create-team/create-team.component';
@@ -37,5 +38,9 @@ export const routes: Routes = [
   {
     path: 'user-page/team/:teamId',
     component: TeamMainPageComponent,
+  },
+  {
+    path: 'admin-page',
+    component: AdminPageComponent,
   },
 ];

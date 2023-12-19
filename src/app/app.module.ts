@@ -28,6 +28,7 @@ import { TaskComponent } from './components/user/user-team/team-main-page/shared
 import { TeamMainPageComponent } from './components/user/user-team/team-main-page/team-main-page.component';
 import { UserTeamsComponent } from './components/user/user-teams/user-teams.component';
 import { APP_INTERCEPTORS } from './interceptors';
+import { AdminPageComponent } from './components/admin/admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { APP_INTERCEPTORS } from './interceptors';
     RightSideMenuComponent,
     DashboardComponent,
     TaskComponent,
+    AdminPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -220,7 +220,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   public openInvitationWindow() {
     this.invitationWindow = true;
-    console.log(this.freeUsers$.value);
   }
 
   public closeInvitationWindow() {
