@@ -19,7 +19,12 @@ export class CommentService {
   }
 
   public create(formData: CreateCommentCommand): Observable<void> {
-    return this.http.post<void>(`${this._baseUrl}`, { formData });
+    const body = {
+      content: formData.content,
+      ticketId: formData.ticketId,
+    };
+
+    return this.http.post<void>(`${this._baseUrl}`, body);
   }
 
   public update(formData: UpdateCommentCommand): Observable<void> {

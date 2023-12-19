@@ -1,5 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -14,6 +14,7 @@ import {
   ETicketStatus,
   KeyValues,
   TaskOverview,
+  TeamOverview,
   UpdateTicketCommand,
 } from '../../../../../../shared';
 
@@ -24,13 +25,17 @@ interface CreateTaskFg {
   assignedTo?: FormControl<string>;
 }
 
+interface InviteFg {
+  username: FormControl<string>;
+}
+
 @UntilDestroy()
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   @Input() teamId: number = 0;
 
   private allTasks = new BehaviorSubject<TaskOverview[]>([]);
@@ -40,10 +45,14 @@ export class DashboardComponent implements OnInit {
   public resolvedTasks$ = new BehaviorSubject<TaskOverview[]>([]);
   public users$ = new BehaviorSubject<string[]>([]);
   public usersKeyValues$ = new BehaviorSubject<KeyValues[]>([]);
+  public freeUsers$ = new BehaviorSubject<KeyValues[]>([]);
+  public teamInfo$ = new BehaviorSubject<TeamOverview | null>(null);
 
   public creationWindow = false;
+  public invitationWindow = false;
 
   public taskCreationForm: FormGroup<CreateTaskFg>;
+  public inviteUserForm: FormGroup<InviteFg>;
 
   constructor(
     private taskService: TaskService,
@@ -59,11 +68,29 @@ export class DashboardComponent implements OnInit {
       ticketStatus: this.fb.control(''),
       assignedTo: this.fb.control(''),
     });
+
+    this.inviteUserForm = this.fb.group<InviteFg>(<InviteFg>{
+      username: this.fb.control('', [Validators.required]),
+    });
   }
 
   ngOnInit() {
     this.setupItemsLoading$();
     this.getUsers();
+    this.getTeamInfo();
+  }
+
+  ngAfterViewInit() {
+    this.getFreeUsers();
+  }
+
+  public getTeamInfo() {
+    this.teamService
+      .getTeamInfo(this.teamId)
+      .pipe(untilDestroyed(this))
+      .subscribe((x) => {
+        this.teamInfo$.next(x);
+      });
   }
 
   public getUsers() {
@@ -145,6 +172,15 @@ export class DashboardComponent implements OnInit {
       });
   }
 
+  private getFreeUsers() {
+    this.teamService
+      .getFreeUsers(this.teamId)
+      .pipe(untilDestroyed(this))
+      .subscribe((x) => {
+        this.freeUsers$.next(x);
+      });
+  }
+
   public openCreationWindow() {
     this.getTeamMembers();
     this.creationWindow = true;
@@ -180,5 +216,29 @@ export class DashboardComponent implements OnInit {
         this.closeCreationWindow();
       });
     this.setupItemsLoading$();
+  }
+
+  public openInvitationWindow() {
+    this.invitationWindow = true;
+    console.log(this.freeUsers$.value);
+  }
+
+  public closeInvitationWindow() {
+    this.invitationWindow = false;
+  }
+
+  public invite() {
+    const username = this.inviteUserForm.controls.username.value;
+    const userId = this.freeUsers$.value.filter((x) => x.value === username)[0]
+      .id;
+    const message = `You has been invited to the team ${
+      this.teamInfo$.value?.teamName ?? 'teamName'
+    }`;
+    this.teamService
+      .invite(userId, this.teamId, message)
+      .pipe(untilDestroyed(this))
+      .subscribe(() => {
+        this.closeInvitationWindow();
+      });
   }
 }

@@ -5,6 +5,7 @@ import { Observable, tap } from 'rxjs';
 import { envDev } from '../../environments';
 import {
   Credentials,
+  Notification,
   RegistrationCredentials,
   UserAccessData,
 } from '../shared';
@@ -97,5 +98,11 @@ export class AuthService {
     localStorage.setItem('username', values.username);
     localStorage.setItem('user_role_id', values.userRoleId.toString());
     localStorage.setItem('token', values.token);
+  }
+
+  public getUncheckedInvitations(userId: number): Observable<Notification[]> {
+    return this.http.get<Notification[]>(
+      `${this._baseUrl}/${userId}/userNotifications`,
+    );
   }
 }

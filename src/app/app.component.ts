@@ -10,7 +10,7 @@ import {
   usersIcon,
 } from '@cds/core/icon';
 import { first } from 'rxjs';
-import { AuthService } from './services';
+import { AuthService, ClientNotificationService } from './services';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +23,7 @@ export class AppComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private notificationsService: ClientNotificationService,
   ) {
     ClarityIcons.addIcons(
       usersIcon,
@@ -32,6 +33,9 @@ export class AppComponent {
       fileGroupIcon,
       successStandardIcon,
     );
+
+    notificationsService.startConnection();
+    notificationsService.addInviteListener();
   }
 
   public logout() {

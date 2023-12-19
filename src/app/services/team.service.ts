@@ -35,4 +35,30 @@ export class TeamService {
   public deleteTeam(teamId: number): Observable<void> {
     return this.http.delete<void>(`${this._baseUrl}/${teamId}`);
   }
+
+  public invite(
+    userId: number,
+    teamId: number,
+    message: string,
+  ): Observable<void> {
+    return this.http.post<void>(`${this._baseUrl}/invite`, {
+      userId,
+      teamId,
+      message,
+    });
+  }
+
+  public acceptInvite(inviteId: number) {
+    return this.http.delete<void>(`${this._baseUrl}/invite/${inviteId}`);
+  }
+
+  public decline(inviteId: number) {
+    return this.http.delete<void>(
+      `${this._baseUrl}/invite/${inviteId}/decline`,
+    );
+  }
+
+  public getFreeUsers(teamId: number) {
+    return this.http.get<KeyValues[]>(`${this._baseUrl}/${teamId}/not-in-team`);
+  }
 }

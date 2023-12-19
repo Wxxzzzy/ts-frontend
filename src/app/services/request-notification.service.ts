@@ -14,4 +14,8 @@ export class RequestNotificationService {
   public error(message: string) {
     this.toastr.error(message);
   }
+
+  public info(message: string) {
+    this.toastr.info(message);
+  }
 }

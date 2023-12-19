@@ -5,11 +5,16 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject } from 'rxjs';
-import { TaskService, TeamService } from '../../../../../../services';
 import {
+  CommentService,
+  TaskService,
+  TeamService,
+} from '../../../../../../services';
+import {
+  CommentOverview,
+  CreateCommentCommand,
   ETicketStatus,
   KeyValues,
   TaskOverview,
@@ -26,6 +31,10 @@ interface TaskDetailsFg {
   creatorName: FormControl<string>;
 }
 
+interface CreateCommentFg {
+  content: FormControl<string>;
+}
+
 @UntilDestroy()
 @Component({
   selector: 'app-task',
@@ -38,16 +47,19 @@ export class TaskComponent implements OnInit {
   public taskStatusIcon: string = '';
   public modalOpen = false;
   public taskStatusString: string = '';
+  public commentCreator = false;
 
   public updateForm: FormGroup<TaskDetailsFg>;
+  public commentForm: FormGroup<CreateCommentFg>;
 
   public users$ = new BehaviorSubject<KeyValues[]>([]);
+  public comments$ = new BehaviorSubject<CommentOverview[]>([]);
 
   constructor(
     private fb: FormBuilder,
     private taskService: TaskService,
     private teamService: TeamService,
-    private router: Router,
+    private comments: CommentService,
   ) {
     this.updateForm = this.fb.group<TaskDetailsFg>(<TaskDetailsFg>{
       creatorName: this.fb.control('', [Validators.required]),
@@ -68,6 +80,10 @@ export class TaskComponent implements OnInit {
     this.updateForm.controls.ticketStatus.disable({ emitEvent: false });
     this.updateForm.controls.creatorName.disable({ emitEvent: false });
     this.updateForm.markAllAsTouched();
+
+    this.commentForm = this.fb.group<CreateCommentFg>(<CreateCommentFg>{
+      content: this.fb.control('', [Validators.required]),
+    });
   }
 
   ngOnInit() {
@@ -76,6 +92,7 @@ export class TaskComponent implements OnInit {
       this.taskStatusIcon = TicketStatusIconsDict[statusId];
       this.taskStatusString = TicketStatusDictionary[statusId];
       this.patchControls();
+      this.getComments$();
     }
   }
 
@@ -150,5 +167,52 @@ export class TaskComponent implements OnInit {
           this.closeDetails();
         });
     }
+  }
+
+  private getComments$() {
+    if (this.taskData !== null) {
+      this.comments
+        .get(this.taskData?.id)
+        .pipe(untilDestroyed(this))
+        .subscribe((x) => {
+          this.comments$.next(x);
+        });
+    }
+  }
+
+  public openCommentCreator() {
+    this.commentCreator = true;
+  }
+
+  public closeCommentCreator() {
+    this.commentCreator = false;
+  }
+
+  public addComment() {
+    if (this.taskData !== null) {
+      const content = this.commentForm.controls.content.value;
+
+      const data: CreateCommentCommand = {
+        ticketId: this.taskData.id,
+        content: content,
+      };
+
+      this.comments
+        .create(data)
+        .pipe(untilDestroyed(this))
+        .subscribe(() => {
+          this.closeCommentCreator();
+          this.getComments$();
+        });
+    }
+  }
+
+  public deleteComment(id: number) {
+    this.comments
+      .delete(id)
+      .pipe(untilDestroyed(this))
+      .subscribe(() => {
+        this.getComments$();
+      });
   }
 }

@@ -45,10 +45,33 @@
         <input type="text" clrInput [formControl]="updateForm.controls.creatorName">
       </clr-input-container>
     </form>
+    <div>
+      <h5>Comments:</h5>
+      <button class="btn btn-success-outline btn-sm"><cds-icon shape="plus" (click)="openCommentCreator()"></cds-icon></button>
+      <div *ngFor="let comm of comments$ | async">
+        <p>{{comm.senderUsername}}</p>
+        <p>{{comm.content}}</p>
+        <button class="btn btn-danger-outline btn-sm" (click)="deleteComment(comm.id)">Delete</button>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-info-outline" (click)="closeDetails()">Close</button>
     <button class="btn btn-danger btn-spacing" (click)="delete()">Delete</button>
     <button class="btn btn-info" (click)="save()" [disabled]="!updateForm.valid">Save changes</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="commentCreator">
+  <h3 class="modal-title">Create Comment</h3>
+  <div class="modal-body hide-scroll">
+    <clr-input-container>
+      <label>Comment</label>
+      <input type="text" clrInput [formControl]="commentForm.controls.content">
+    </clr-input-container>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info-outline" (click)="closeCommentCreator()">Close</button>
+    <button class="btn btn-success btn-spacing" (click)="addComment()">Create</button>
   </div>
 </clr-modal>

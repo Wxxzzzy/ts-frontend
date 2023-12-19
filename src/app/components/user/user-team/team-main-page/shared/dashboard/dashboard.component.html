@@ -44,6 +44,7 @@
 
   <div class="clr-col-4">
    <button class="btn btn-success" (click)="openCreationWindow()">Create New Task</button>
+    <button class="btn btn-success" (click)="openInvitationWindow()">Invite To The Team</button>
     <div>
       <h5>Team Members</h5>
       <ul>
@@ -92,3 +93,19 @@
   </div>
 </clr-modal>
 
+<clr-modal [(clrModalOpen)]="invitationWindow">
+  <h3 class="modal-title">Invitation</h3>
+  <div class="modal-body">
+    <clr-datalist-container>
+      <label>Username:</label>
+      <input type="text" clrDatalistInput [formControl]="inviteUserForm.controls.username">
+      <datalist>
+        <option *ngFor="let user of freeUsers$ | async" [value]="user.value"></option>
+      </datalist>
+    </clr-datalist-container>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info-outline" (click)="closeInvitationWindow()">Cancel</button>
+    <button class="btn btn-info" (click)="invite()">Invite</button>
+  </div>
+</clr-modal>

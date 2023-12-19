@@ -2,6 +2,7 @@ export * from './comment-overview';
 export * from './create-comment-command';
 export * from './create-ticket-command';
 export * from './credentials';
+export * from './notification';
 export * from './registration-credentials';
 export * from './task-overview';
 export * from './team-overview';
