@@ -2,6 +2,6 @@
   <p>{{user.username}}</p>
   <p>{{user.isBlocked ? 'Blocked' : 'Not Blocked'}}</p>
   <button class="btn btn-danger" (click)="blockOrUnblockUser(user.username, !user.isBlocked)">
-    {{user.isBlocked ? 'Block' : 'Unblock'}}
+    {{user.isBlocked ? 'Unblock' : 'Block'}}
   </button>
 </div>

@@ -188,6 +188,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   public closeCreationWindow() {
     this.creationWindow = false;
+    this.setupItemsLoading$();
   }
 
   public createTask() {
@@ -215,7 +216,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       .subscribe(() => {
         this.closeCreationWindow();
       });
-    this.setupItemsLoading$();
   }
 
   public openInvitationWindow() {
